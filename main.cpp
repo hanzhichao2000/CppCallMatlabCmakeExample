@@ -1,6 +1,3 @@
-// #include "mex.h"
-
-// #include "mclcppclass.h"
 #include <iostream>
 using namespace std;
 
