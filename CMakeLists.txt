@@ -18,6 +18,8 @@ ENDIF()
 # check os and set arch
 IF(UNIX)
     SET(ARCH glnxa64)
+# ELSEIF(WIN32)
+#	SET(ARCH win64)
 ELSE()
     MESSAGE(FATAL_ERROR "The current OS is not support yet!")
 ENDIF()
