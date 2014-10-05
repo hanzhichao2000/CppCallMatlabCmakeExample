@@ -43,7 +43,7 @@ ENDIF()
 IF(IS_DIRECTORY ${TARGET_DIR})
     IF(NOT EXISTS "${TARGET_DIR}/lib${TARGET_LIB}.so")
         MESSAGE(FATAL_ERROR
-            "lib${TARGET_LIB}.so should be linked to demo.so before cmake!")
+            "lib${TARGET_LIB}.so should be linked to ${TARGET_LIB}.so before cmake!")
     ENDIF()
 ELSE()
     MESSAGE(FATAL_ERROR 
