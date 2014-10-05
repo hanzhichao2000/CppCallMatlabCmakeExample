@@ -7,7 +7,13 @@ SET(TARGET_DIR
     ${PROJECT_SOURCE_DIR}/demo/for_redistribution_files_only)
 SET(TARGET_LIB demo)
 
+IF(NOT TARGET_DIR)
+    MESSAGE(FATAL_ERROR "$TARGET_DIR should be defined!")
+ENDIF()
 
+IF(NOT TARGET_LIB)
+    MESSAGE(FATAL_ERROR "$TARGET_LIB should be defined!")
+ENDIF()
 
 
 SET(CMAKE_CXX_FLAGS "-ansi -pthread")
