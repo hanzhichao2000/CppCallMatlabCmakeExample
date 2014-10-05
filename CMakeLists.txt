@@ -2,6 +2,14 @@ PROJECT(CppCallMatlabCmakeExample)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
+
+SET(TARGET_DIR 
+    ${PROJECT_SOURCE_DIR}/demo/for_redistribution_files_only)
+SET(TARGET_LIB demo)
+
+
+
+
 SET(CMAKE_CXX_FLAGS "-ansi -pthread")
 
 
@@ -25,9 +33,6 @@ ENDIF()
 
 #####################################################################
 # assert prj is compiled as a matlab library
-SET(TARGET_DIR 
-    ${PROJECT_SOURCE_DIR}/demo/for_redistribution_files_only)
-SET(TARGET_LIB demo)
 
 IF(IS_DIRECTORY ${TARGET_DIR})
     IF(NOT EXISTS "${TARGET_DIR}/lib${TARGET_LIB}.so")
