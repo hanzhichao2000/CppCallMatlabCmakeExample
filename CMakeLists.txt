@@ -1,7 +1,6 @@
 PROJECT(CppCallMatlabCmakeExample)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-ADD_DEFINITIONS(-D_GNU_SOURCE -DUNIX -DX11 -DGLNXA64 -DGCC)
 
 SET(CMAKE_CXX_FLAGS "-ansi -pthread")
 
@@ -9,8 +8,7 @@ SET(CMAKE_CXX_FLAGS "-ansi -pthread")
 #####################################################################
 # assert env variable
 SET(MATLABROOT $ENV{MATLABROOT})
-IF(MATLABROOT)
-ELSE()
+IF(NOT MATLABROOT)
     message(FATAL_ERROR "$MATLABROOT should be defined!")
 ENDIF()
 
@@ -18,6 +16,7 @@ ENDIF()
 # check os and set arch
 IF(UNIX)
     SET(ARCH glnxa64)
+    ADD_DEFINITIONS(-D_GNU_SOURCE -DUNIX -DX11 -DGLNXA64 -DGCC)
 # ELSEIF(WIN32)
 #	SET(ARCH win64()
 ELSE()
@@ -26,21 +25,23 @@ ENDIF()
 
 #####################################################################
 # assert prj is compiled as a matlab library
-SET(DEMO_DIR 
+SET(TARGET_DIR 
     ${PROJECT_SOURCE_DIR}/demo/for_redistribution_files_only)
-IF(IS_DIRECTORY ${DEMO_DIR})
-    IF(NOT EXISTS "${DEMO_DIR}/libdemo.so")
+SET(TARGET_LIB demo)
+
+IF(IS_DIRECTORY ${TARGET_DIR})
+    IF(NOT EXISTS "${TARGET_DIR}/lib${TARGET_LIB}.so")
         MESSAGE(FATAL_ERROR
-            "libdemo.so should be linked to demo.so before cmake!")
+            "lib${TARGET_LIB}.so should be linked to demo.so before cmake!")
     ENDIF()
 ELSE()
     MESSAGE(FATAL_ERROR 
-        "demo.prj should be set up in the current directory, including demo.m and demo2.m, and compiled as a Matlab library before cmake!")
+        "${TARGET_LIB}.prj should be set up in the current directory and compiled as a Matlab library before cmake!")
 ENDIF()
 
-INCLUDE_DIRECTORIES(${MATLABROOT}/extern/include ${DEMO_DIR})
-LINK_DIRECTORIES(${MATLABROOT}/runtime/${ARCH} ${DEMO_DIR})
+INCLUDE_DIRECTORIES(${MATLABROOT}/extern/include ${TARGET_DIR})
+LINK_DIRECTORIES(${MATLABROOT}/runtime/${ARCH} ${TARGET_DIR})
 
 
 ADD_EXECUTABLE(main main.cpp)
-TARGET_LINK_LIBRARIES(main libmwmclmcrrt.so demo.so)
+TARGET_LINK_LIBRARIES(main mwmclmcrrt ${TARGET_LIB})
